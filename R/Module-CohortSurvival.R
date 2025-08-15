@@ -63,6 +63,13 @@ CohortSurvivalModule <- R6::R6Class(
       } else {
         stop("Invalid analysis type. Must be 'single_event' or 'competing_risk'")
       }
+      # (Making some changes for visualization of survival analysis results)
+      print("Plotting the Survival Results...\n")
+      g <- CohortSurvival::plotSurvival(survivalResults)
+      library(ggplot2)
+      ggplot2::ggsave("./survival_plot.png", g, width = 8, height = 6)
+      quartz()
+      print(CohortSurvival::plotSurvival(survivalResults))
       private$.message("Export data to csv files")
       # Export results to CSV
       CohortGenerator::writeCsv(
@@ -78,7 +85,6 @@ CohortSurvivalModule <- R6::R6Class(
         file = file.path(resultsFolder, "resultsDataModelSpecification.csv"),
         warnOnFileNameCaseMismatch = FALSE
       )
-
       # Disconnect from CDM
       CDMConnector::cdmDisconnect(cdm)
 
