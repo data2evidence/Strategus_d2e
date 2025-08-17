@@ -84,6 +84,7 @@ CohortSurvivalModule <- R6::R6Class(
         strata_cols <- cohort_cols[grepl("^strata_", cohort_cols)]
         if (length(strata_cols) > 0) {
           strata_param <- lapply(strata_cols, function(col) c(col))
+          print("strata_param:", paste(strata_param, collapse = ", "))
         }
       }
       # ---- End strata handling ----
