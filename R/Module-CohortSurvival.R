@@ -109,6 +109,17 @@ CohortSurvivalModule <- R6::R6Class(
           eventGap = settings$eventGap,
           followUpDays = settings$followUpDays
         )
+        print("Plotting the Survival Results...\n")
+        # Apply appropriate plotting based on strata
+        surv_plot <- if (length(strata_cols) > 0) {
+            plotSurvival(survivalResults, facet = "strata_name")
+        } else {
+            plotSurvival(survivalResults)
+        }
+        print("Plotting the Survival Results...\n")
+        print("strata_name:")
+        str(survivalResults$strata_name)
+        
       } else if (settings$analysisType == "competing_risk") {
         # Competing risk cohort survival analysis
         survivalResults <- CohortSurvival::estimateCompetingRiskSurvival(
@@ -118,26 +129,16 @@ CohortSurvivalModule <- R6::R6Class(
           outcomeCohortTable = settings$outcomeCohortTable,
           outcomeCohortId = settings$outcomeCohortId,
           competingOutcomeCohortTable = settings$competingOutcomeCohortTable,
-          strata = strata_param,
           eventGap = settings$eventGap,
           followUpDays = settings$followUpDays
         )
+        # plot survival results
+        surv_plot <- plotSurvival(survivalResults, cumulativeFailure = TRUE)
       } else {
         stop("Invalid analysis type. Must be 'single_event' or 'competing_risk'")
       }
-      # plot survival results
-      print("Plotting the Survival Results...\n")
-      
-      print("strata_name:")
-      str(survivalResults$strata_name)
-
-      if (!is.null(settings$strata)) {
-        g <- CohortSurvival::plotSurvival(survivalResults, facet = "strata_name")
-      } else {
-        g <- CohortSurvival::plotSurvival(survivalResults)
-      }
       library(ggplot2)
-      ggplot2::ggsave("./survival_plot.png", g, width = 8, height = 6)
+      ggplot2::ggsave("./survival_plot.png", surv_plot, width = 8, height = 6)
       quartz()
       print(CohortSurvival::plotSurvival(survivalResults))
       private$.message("Export data to csv files")
