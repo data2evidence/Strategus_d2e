@@ -63,9 +63,13 @@ CohortSurvivalModule <- R6::R6Class(
       } else {
         stop("Invalid analysis type. Must be 'single_event' or 'competing_risk'")
       }
-      # (Making some changes for visualization of survival analysis results)
+      # plot survival results
       print("Plotting the Survival Results...\n")
-      g <- CohortSurvival::plotSurvival(survivalResults)
+      if (!is.null(settings$strata)) {
+        g <- CohortSurvival::plotSurvival(survivalResults, facet = "strata_name")
+      } else {
+        g <- CohortSurvival::plotSurvival(survivalResults)
+      }
       library(ggplot2)
       ggplot2::ggsave("./survival_plot.png", g, width = 8, height = 6)
       quartz()
@@ -167,7 +171,7 @@ CohortSurvivalModule <- R6::R6Class(
     #' @description Creates the Kaplan-Meier Survival Module Specifications
     #'
     #' @details
-    #' Run Kaplan-Meier survival analyses for target cohorts and outcomes.
+    #' create module specifications for survival analysis of single event as well as competing risk
     #' @param targetCohortTable The name of the target cohort table.
     #' @param outcomeCohortTable The name of the outcome cohort table.
     #' @param strata A list of stratification variables. Each element should be a character vector of column names.
