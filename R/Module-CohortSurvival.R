@@ -46,7 +46,10 @@ CohortSurvivalModule <- R6::R6Class(
 
       if (!is.null(settings$strata)) {
         cohort_cols <- DBI::dbListFields(dbi_conn, settings$targetCohortTable)
+        print("\ncohort_cols:\n")
+        str(cohort_cols)
         for (strata_name in settings$strata) {
+          print(paste("Processing strata:", strata_name))
           sanitized_name <- tolower(strata_name)
           sanitized_name <- gsub("[^[:alnum:][:space:]]", "", sanitized_name)
           sanitized_name <- gsub("\\s+", "_", sanitized_name)
