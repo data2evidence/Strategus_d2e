@@ -44,7 +44,7 @@ CohortSurvivalModule <- R6::R6Class(
       print("\n settings$strata:\n")
       str(settings$strata)
 
-      if (!is.null(settings$strata) {
+      if (!is.null(settings$strata)) {
         cohort_cols <- DBI::dbListFields(dbi_conn, settings$targetCohortTable)
         for (strata_name in settings$strata) {
           sanitized_name <- tolower(strata_name)
