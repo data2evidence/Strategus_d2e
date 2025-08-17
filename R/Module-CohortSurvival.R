@@ -112,14 +112,14 @@ CohortSurvivalModule <- R6::R6Class(
         print("Plotting the Survival Results...\n")
         # Apply appropriate plotting based on strata
         surv_plot <- if (length(strata_cols) > 0) {
-            plotSurvival(survivalResults, facet = "strata_name")
+            CohortSurvival::plotSurvival(survivalResults, facet = "strata_name")
         } else {
-            plotSurvival(survivalResults)
+            CohortSurvival::plotSurvival(survivalResults)
         }
         print("Plotting the Survival Results...\n")
         print("strata_name:")
         str(survivalResults$strata_name)
-        
+
       } else if (settings$analysisType == "competing_risk") {
         # Competing risk cohort survival analysis
         survivalResults <- CohortSurvival::estimateCompetingRiskSurvival(
@@ -133,7 +133,7 @@ CohortSurvivalModule <- R6::R6Class(
           followUpDays = settings$followUpDays
         )
         # plot survival results
-        surv_plot <- plotSurvival(survivalResults, cumulativeFailure = TRUE)
+        surv_plot <- CohortSurvival::plotSurvival(survivalResults, cumulativeFailure = TRUE)
       } else {
         stop("Invalid analysis type. Must be 'single_event' or 'competing_risk'")
       }
