@@ -47,7 +47,9 @@ CohortSurvivalModule <- R6::R6Class(
           targetCohortId = settings$targetCohortId,
           outcomeCohortTable = settings$outcomeCohortTable,
           outcomeCohortId = settings$outcomeCohortId,
-          strata = settings$strata
+          strata = settings$strata,
+          eventGap = settings$eventGap,
+          followUpDays = settings$followUpDays
         )
       } else if (settings$analysisType == "competing_risk") {
         # Competing risk cohort survival analysis
