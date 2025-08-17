@@ -127,6 +127,10 @@ CohortSurvivalModule <- R6::R6Class(
       }
       # plot survival results
       print("Plotting the Survival Results...\n")
+      
+      print("strata_name:")
+      str(survivalResults$strata_name)
+
       if (!is.null(settings$strata)) {
         g <- CohortSurvival::plotSurvival(survivalResults, facet = "strata_name")
       } else {
