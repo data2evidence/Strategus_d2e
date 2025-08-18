@@ -35,7 +35,7 @@ Suggests:
   CohortDiagnostics (>= 3.4.0),
   CohortIncidence,
   CohortMethod,
-  CohortSurvival (>= 1.0.2),
+  CohortSurvival_d2e (>= 1.0.2),
   Cyclops,
   Eunomia,
   EvidenceSynthesis,
