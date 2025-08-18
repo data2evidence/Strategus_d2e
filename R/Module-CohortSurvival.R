@@ -41,7 +41,7 @@ CohortSurvivalModule <- R6::R6Class(
       if (!is.null(settings$strata)) {
         cohort_cols <- DBI::dbListFields(dbi_conn, settings$targetCohortTable)
         print("\ncohort_cols:\n")
-        str(cohort_cols)
+        lapply(cohort_cols, function(col) print(paste0(col, ",")))
         for (strata_name in settings$strata) {
           print(paste("Processing strata:", strata_name))
           sanitized_name <- tolower(strata_name)
@@ -86,7 +86,8 @@ CohortSurvivalModule <- R6::R6Class(
         # Pass all strata columns to survival function
         cohort_cols <- DBI::dbListFields(dbi_conn, settings$targetCohortTable)
         strata_cols <- cohort_cols[grepl("^strata_", cohort_cols)]
-        print("strata_cols:", paste(strata_cols, collapse = ", "))
+        print("strata_cols:")
+        str(strata_cols)
         if (length(strata_cols) > 0) {
           strata_param <- lapply(strata_cols, function(col) c(col))
           print("strata_param:")
@@ -119,7 +120,7 @@ CohortSurvivalModule <- R6::R6Class(
         str(survivalResults$strata_name)
         # Apply appropriate plotting based on strata
         surv_plot <- if (length(strata_cols) > 0) {
-            CohortSurvival::plotSurvival(survivalResults, facet = "strata_name")
+            CohortSurvival::plotSurvival(survivalResults, facet = strata_param)
         } else {
             CohortSurvival::plotSurvival(survivalResults)
         }
