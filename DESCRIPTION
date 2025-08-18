@@ -17,7 +17,8 @@ Depends:
 	R (>= 4.2.0),
 	CohortGenerator (>= 0.11.0),
 	DatabaseConnector (>= 6.2.3),
-  R6
+  R6,
+  CohortSurvivald2e (>= 1.0.2),
 Imports:
   checkmate,
   cli,
@@ -35,7 +36,6 @@ Suggests:
   CohortDiagnostics (>= 3.4.0),
   CohortIncidence,
   CohortMethod,
-  CohortSurvivald2e (>= 1.0.2),
   Cyclops,
   Eunomia,
   EvidenceSynthesis,
