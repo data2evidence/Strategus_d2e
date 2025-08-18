@@ -108,14 +108,14 @@ CohortSurvivalModule <- R6::R6Class(
           targetCohortId = settings$targetCohortId,
           outcomeCohortTable = settings$outcomeCohortTable,
           outcomeCohortId = settings$outcomeCohortId,
-          strata = strata_param,
+          strata = list(c("strata_age")),
           eventGap = settings$eventGap,
           followUpDays = settings$followUpDays
         )
         print("Plotting the Survival Results...\n")
         # Apply appropriate plotting based on strata
         surv_plot <- if (length(strata_cols) > 0) {
-            CohortSurvival::plotSurvival(survivalResults, facet = "strata_name")
+            CohortSurvival::plotSurvival(survivalResults, facet = "strata_age")
         } else {
             CohortSurvival::plotSurvival(survivalResults)
         }
