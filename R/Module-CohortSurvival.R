@@ -87,10 +87,15 @@ CohortSurvivalModule <- R6::R6Class(
         cohort_cols <- DBI::dbListFields(dbi_conn, settings$targetCohortTable)
         strata_cols <- cohort_cols[grepl("^strata_", cohort_cols)]
         if (length(strata_cols) > 0) {
-          strata_param <- lapply(strata_cols, function(col) c(col))
-          print("strata_param:")
-          str(strata_param)
+          strata_param <- strata_cols
+        } else {
+          strata_param <- NULL
         }
+        # if (length(strata_cols) > 0) {
+        #   strata_param <- lapply(strata_cols, function(col) col)
+        #   print("strata_param:")
+        #   str(strata_param)
+        # }
       }
       # ---- End strata handling ----
       # Create CDM object for CohortSurvival
@@ -118,7 +123,7 @@ CohortSurvivalModule <- R6::R6Class(
         str(survivalResults$strata_name)
         # Apply appropriate plotting based on strata
         surv_plot <- if (length(strata_cols) > 0) {
-            CohortSurvival::plotSurvival(survivalResults, facet = survivalResults$strata_name)
+            CohortSurvival::plotSurvival(survivalResults, facet = "strata_name")
         } else {
             CohortSurvival::plotSurvival(survivalResults)
         }
