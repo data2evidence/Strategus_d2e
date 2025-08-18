@@ -114,15 +114,15 @@ CohortSurvivalModule <- R6::R6Class(
           followUpDays = settings$followUpDays
         )
         print("Plotting the Survival Results...\n")
+        print("strata_name:")
+        str(survivalResults$strata_name)
         # Apply appropriate plotting based on strata
         surv_plot <- if (length(strata_cols) > 0) {
-            CohortSurvival::plotSurvival(survivalResults, facet = "strata_name")
+            CohortSurvival::plotSurvival(survivalResults, facet = survivalResults$strata_name)
         } else {
             CohortSurvival::plotSurvival(survivalResults)
         }
-        print("Plotting the Survival Results...\n")
-        print("strata_name:")
-        str(survivalResults$strata_name)
+        
 
       } else if (settings$analysisType == "competing_risk") {
         # Competing risk cohort survival analysis
