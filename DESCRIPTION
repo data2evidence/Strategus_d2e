@@ -57,7 +57,7 @@ Suggests:
   visOmopResults (>= 1.0.0),
   CDMConnector (>= 2.0.0),
 Remotes:
-  data2evidence/CohortSurvival,
+  data2evidence/CohortSurvival_d2e,
   darwin-eu/PatientProfiles,
   darwin-eu/omopgenerics,
   darwin-eu/visOmopResults,
