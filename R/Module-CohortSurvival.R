@@ -86,16 +86,12 @@ CohortSurvivalModule <- R6::R6Class(
         # Pass all strata columns to survival function
         cohort_cols <- DBI::dbListFields(dbi_conn, settings$targetCohortTable)
         strata_cols <- cohort_cols[grepl("^strata_", cohort_cols)]
+        print("strata_cols:", paste(strata_cols, collapse = ", "))
         if (length(strata_cols) > 0) {
-          strata_param <- strata_cols
-        } else {
-          strata_param <- NULL
+          strata_param <- lapply(strata_cols, function(col) c(col))
+          print("strata_param:")
+          str(strata_param)
         }
-        # if (length(strata_cols) > 0) {
-        #   strata_param <- lapply(strata_cols, function(col) col)
-        #   print("strata_param:")
-        #   str(strata_param)
-        # }
       }
       # ---- End strata handling ----
       # Create CDM object for CohortSurvival
