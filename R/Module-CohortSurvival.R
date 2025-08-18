@@ -76,12 +76,15 @@ CohortSurvivalModule <- R6::R6Class(
               ))
               current_year <- as.numeric(format(Sys.Date(), "%Y"))
               DBI::dbExecute(dbi_conn, paste0(
-                "UPDATE ", settings$targetCohortTable, " AS c ",
-                "SET ", column_name, " = CASE ",
-                "WHEN (", current_year, " - p.year_of_birth) < 18 THEN '0-18' ",
-                "ELSE '18+' END ",
-                "FROM person p WHERE c.subject_id = p.person_id;"
-              ))
+              "UPDATE ", settings$targetCohortTable, " AS c ",
+              "SET ", column_name, " = CASE ",
+              "WHEN (", current_year, " - p.year_of_birth) < 18 THEN '0-17' ",
+              "WHEN (", current_year, " - p.year_of_birth) BETWEEN 18 AND 34 THEN '18-34' ",
+              "WHEN (", current_year, " - p.year_of_birth) BETWEEN 35 AND 49 THEN '35-49' ",
+              "WHEN (", current_year, " - p.year_of_birth) BETWEEN 50 AND 64 THEN '50-64' ",
+              "ELSE '65+' END ",
+              "FROM person p WHERE c.subject_id = p.person_id;"
+            ))
             }
           }
         }
