@@ -120,7 +120,7 @@ CohortSurvivalModule <- R6::R6Class(
         str(survivalResults$strata_name)
         # Apply appropriate plotting based on strata
         surv_plot <- if (length(strata_cols) > 0) {
-            CohortSurvival::plotSurvival(survivalResults, facet = settings$strata)
+            CohortSurvival::plotSurvival(survivalResults, facet = strata_cols)
         } else {
             CohortSurvival::plotSurvival(survivalResults)
         }
