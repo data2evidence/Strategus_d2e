@@ -28,13 +28,7 @@ CohortSurvivalModule <- R6::R6Class(
 
       # get a DBI Connection object - Cohort Survival works with this only
       dbi_conn <- DatabaseConnector::connect(connectionDetails)@dbiConnection
-      # Create CDM object for CohortSurvival
-      cdm <- CDMConnector::cdmFromCon(
-        con = dbi_conn,
-        cdmSchema = jobContext$moduleExecutionSettings$cdmDatabaseSchema,
-        writeSchema = jobContext$moduleExecutionSettings$workDatabaseSchema,
-        cohortTables = jobContext$moduleExecutionSettings$cohortTableNames$cohortTable
-      )
+      
 
       # Get settings from job context
       settings <- jobContext$settings
@@ -99,7 +93,14 @@ CohortSurvivalModule <- R6::R6Class(
         }
       }
       # ---- End strata handling ----
-
+      # Create CDM object for CohortSurvival
+      cdm <- CDMConnector::cdmFromCon(
+        con = dbi_conn,
+        cdmSchema = jobContext$moduleExecutionSettings$cdmDatabaseSchema,
+        writeSchema = jobContext$moduleExecutionSettings$workDatabaseSchema,
+        cohortTables = jobContext$moduleExecutionSettings$cohortTableNames$cohortTable
+      )
+      
       if (settings$analysisType == "single_event") {
         # Run Kaplan-Meier survival analysis
         survivalResults <- CohortSurvival::estimateSingleEventSurvival(
