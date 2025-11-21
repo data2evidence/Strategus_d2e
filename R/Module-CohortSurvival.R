@@ -27,7 +27,7 @@ CohortSurvivalModule <- R6::R6Class(
       resultsFolder <- jobContext$moduleExecutionSettings$resultsSubFolder
 
       # get a DBI Connection object - Cohort Survival works with this only
-      dbi_conn <- DatabaseConnector::connect(connectionDetails)@dbiConnection
+      dbi_conn <- DatabaseConnector::connect(connectionDetails)
 
       # Get settings from job context
       settings <- jobContext$settings
