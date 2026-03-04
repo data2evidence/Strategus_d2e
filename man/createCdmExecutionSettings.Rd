@@ -15,6 +15,7 @@ createCdmExecutionSettings(
   minCellCount = 5,
   incremental = TRUE,
   maxCores = parallel::detectCores(),
+  javaHeapSizeInGb = NULL,
   modulesToExecute = c()
 )
 }
@@ -46,6 +47,11 @@ and attempt to pick up where they left off when this value is set to TRUE.}
 
 \item{maxCores}{The maximum number of processing cores to use for execution. The default is to
 use all available cores on the machine.}
+
+\item{javaHeapSizeInGb}{The maximum Java heap size (in gigabytes) to use during module execution.
+This sets the \code{-Xmx} JVM option via \code{options(java.parameters)} before
+modules are run. Must be set before \code{rJava} is initialized to take effect.
+Must be a positive integer. Defaults to \code{NULL} (no change to current Java settings).}
 
 \item{modulesToExecute}{(Optional) A vector with the list of modules to execute. When an empty vector/NULL is supplied (default),
 all modules in the analysis specification are executed.}

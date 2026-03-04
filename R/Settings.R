@@ -297,6 +297,10 @@ createEmptyAnalysisSpecificiations <- function() {
 #'                                   and attempt to pick up where they left off when this value is set to TRUE.
 #' @param maxCores                   The maximum number of processing cores to use for execution. The default is to
 #'                                   use all available cores on the machine.
+#' @param javaHeapSizeInGb           The maximum Java heap size (in gigabytes) to use during module execution.
+#'                                   This sets the `-Xmx` JVM option via `options(java.parameters)` before
+#'                                   modules are run. Must be set before `rJava` is initialized to take effect.
+#'                                   Must be a positive integer. Defaults to `NULL` (no change to current Java settings).
 #' @template modulesToExecute
 #'
 #' @return
@@ -313,6 +317,7 @@ createCdmExecutionSettings <- function(workDatabaseSchema,
                                        minCellCount = 5,
                                        incremental = TRUE,
                                        maxCores = parallel::detectCores(),
+                                       javaHeapSizeInGb = NULL,
                                        modulesToExecute = c()) {
   errorMessages <- checkmate::makeAssertCollection()
   checkmate::assertCharacter(workDatabaseSchema, len = 1, add = errorMessages)
@@ -324,6 +329,7 @@ createCdmExecutionSettings <- function(workDatabaseSchema,
   checkmate::assertInt(minCellCount, add = errorMessages)
   checkmate::assertLogical(incremental, add = errorMessages)
   checkmate::assertInt(maxCores, add = errorMessages)
+  checkmate::assertInt(javaHeapSizeInGb, lower = 1, null.ok = TRUE, add = errorMessages)
   checkmate::assertVector(modulesToExecute, null.ok = TRUE, add = errorMessages)
   checkmate::reportAssertions(collection = errorMessages)
 
@@ -350,6 +356,10 @@ createCdmExecutionSettings <- function(workDatabaseSchema,
 #'                                   in results.
 #' @param maxCores                   The maximum number of processing cores to use for execution. The default is to
 #'                                   use all available cores on the machine.
+#' @param javaHeapSizeInGb           The maximum Java heap size (in gigabytes) to use during module execution.
+#'                                   This sets the `-Xmx` JVM option via `options(java.parameters)` before
+#'                                   modules are run. Must be set before `rJava` is initialized to take effect.
+#'                                   Must be a positive integer. Defaults to `NULL` (no change to current Java settings).
 #' @template modulesToExecute
 #'
 #' @return
@@ -362,6 +372,7 @@ createResultsExecutionSettings <- function(resultsDatabaseSchema,
                                            logFileName = file.path(resultsFolder, "strategus-log.txt"),
                                            minCellCount = 5,
                                            maxCores = parallel::detectCores(),
+                                           javaHeapSizeInGb = NULL,
                                            modulesToExecute = c()) {
   errorMessages <- checkmate::makeAssertCollection()
   checkmate::assertCharacter(resultsDatabaseSchema, len = 1, add = errorMessages)
@@ -370,6 +381,7 @@ createResultsExecutionSettings <- function(resultsDatabaseSchema,
   checkmate::assertCharacter(logFileName, len = 1, add = errorMessages)
   checkmate::assertInt(minCellCount, add = errorMessages)
   checkmate::assertInt(maxCores, add = errorMessages)
+  checkmate::assertInt(javaHeapSizeInGb, lower = 1, null.ok = TRUE, add = errorMessages)
   checkmate::assertVector(modulesToExecute, null.ok = TRUE, add = errorMessages)
   checkmate::reportAssertions(collection = errorMessages)
 

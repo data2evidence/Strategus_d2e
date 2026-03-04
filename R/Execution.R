@@ -46,6 +46,14 @@ execute <- function(analysisSpecifications,
   )
   on.exit(ParallelLogger::unregisterLogger("STRATEGUS_LOGGER"))
 
+  # Set Java heap size if specified in execution settings
+  if (!is.null(executionSettings$javaHeapSizeInGb)) {
+    if ("rJava" %in% loadedNamespaces()) {
+      warning("rJava is already loaded - Java heap size setting may not take effect. Set javaHeapSizeInGb before rJava is initialized.")
+    }
+    options(java.parameters = paste0("-Xmx", as.integer(executionSettings$javaHeapSizeInGb), "g"))
+  }
+
   # Used to keep track of the execution status
   executionStatus <- list()
 

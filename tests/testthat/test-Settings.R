@@ -399,6 +399,45 @@ test_that("Create results execution settings", {
   expect_equal(class(executionSettings), c("ResultsExecutionSettings", "ExecutionSettings"))
 })
 
+test_that("Create CDM execution settings with javaHeapSizeInGb", {
+  executionSettings <- createCdmExecutionSettings(
+    workDatabaseSchema = "main",
+    cdmDatabaseSchema = "main",
+    cohortTableNames = CohortGenerator::getCohortTableNames(cohortTable = "cohort"),
+    workFolder = tempfile(),
+    resultsFolder = tempfile(),
+    javaHeapSizeInGb = 8
+  )
+
+  expect_equal(class(executionSettings), c("CdmExecutionSettings", "ExecutionSettings"))
+  expect_equal(executionSettings$javaHeapSizeInGb, 8)
+})
+
+test_that("Create CDM execution settings with invalid javaHeapSizeInGb", {
+  expect_error(
+    createCdmExecutionSettings(
+      workDatabaseSchema = "main",
+      cdmDatabaseSchema = "main",
+      cohortTableNames = CohortGenerator::getCohortTableNames(cohortTable = "cohort"),
+      workFolder = tempfile(),
+      resultsFolder = tempfile(),
+      javaHeapSizeInGb = 0
+    )
+  )
+})
+
+test_that("Create results execution settings with javaHeapSizeInGb", {
+  executionSettings <- createResultsExecutionSettings(
+    resultsDatabaseSchema = "test",
+    workFolder = tempfile(),
+    resultsFolder = tempfile(),
+    javaHeapSizeInGb = 4
+  )
+
+  expect_equal(class(executionSettings), c("ResultsExecutionSettings", "ExecutionSettings"))
+  expect_equal(executionSettings$javaHeapSizeInGb, 4)
+})
+
 test_that("Create results data model settings", {
   settings <- createResultsDataModelSettings(
     resultsDatabaseSchema = "test",
